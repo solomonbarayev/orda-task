@@ -1,0 +1,106 @@
+.form__header {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+.form__row {
+  display: flex;
+  margin-bottom: 20px;
+  gap: 40px;
+  padding: 0 10px;
+}
+
+.form__group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form__buttons {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+.form__label {
+  font-size: 12px;
+  color: rgb(68, 68, 68);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form__input::placeholder,
+.form__checkbox-label {
+  color: rgb(126, 126, 126);
+  font-size: 14px;
+}
+
+.form__input {
+  padding: 10px 10px;
+  border: 1px solid rgb(211, 211, 211);
+  min-width: 150px;
+}
+
+.form__button {
+  padding: 12px;
+  width: 150px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: rgb(59, 59, 160);
+  color: #fff;
+}
+
+.form__button_inactive {
+  background-color: rgba(59, 59, 160, 0.5);
+  cursor: not-allowed;
+}
+
+.form__selection {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px 10px;
+  border: 1px solid rgb(211, 211, 211);
+  min-width: 150px;
+}
+
+.form__selection_active {
+  background-color: aliceblue;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+@media screen and (max-width: 514px) {
+  .form__row {
+    display: block;
+  }
+  .form__selections {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .form__buttons {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form__button {
+    width: 100%;
+  }
+}
