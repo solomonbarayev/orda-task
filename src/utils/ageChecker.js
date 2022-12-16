@@ -2,9 +2,9 @@ export const checkAgeAtleastEighteen = (date) => {
   const today = new Date();
   const birthDate = new Date(date);
   let age = today.getFullYear() - birthDate.getFullYear();
-  const m = today.getMonth() - birthDate.getMonth();
+  const month = today.getMonth() - birthDate.getMonth();
 
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+  if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
     age--;
   }
 

@@ -19,10 +19,3 @@
   max-width: 800px;
   margin: 0 auto;
 }
-
-.app__languages {
-  display: flex;
-  gap: 10px;
-  list-style: none;
-  justify-content: flex-end;
-}

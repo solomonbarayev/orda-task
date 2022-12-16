@@ -1,0 +1,14 @@
+.languages {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+  justify-content: flex-end;
+}
+
+.language {
+  cursor: pointer;
+}
+
+.language__button {
+  cursor: pointer;
+}

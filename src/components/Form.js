@@ -1,89 +1,23 @@
 import '../blocks/Form.css';
-import { useState, useEffect } from 'react';
-import { isValidIsraeliID } from '../utils/isValidIsraeliID';
 import {
   onlyHebrewLetters,
   onlyEnglishLetters,
-} from '../utils/onlyHebrewAndEnglish';
-import { validateEmail } from '../utils/emailValidator';
-import { checkAgeAtleastEighteen } from '../utils/ageChecker';
+} from '../utils/languageAcceptor';
 import { translations } from '../utils/translations';
 import { useLanguage } from '../context/LanguageProvider';
+import { useForm } from '../context/FormProvider';
 
 const Form = () => {
-  const initialValues = {
-    firstname: '',
-    lastname: '',
-    idnumber: '',
-    email: '',
-    gender: '',
-    dob: '',
-  };
+  const {
+    values,
+    setValues,
+    isFormValid,
+    handleReset,
+    handleChange,
+    handleSubmit,
+  } = useForm();
 
   const { language } = useLanguage();
-
-  const [values, setValues] = useState(initialValues);
-  const [isFormValid, setIsFormValid] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (language === 'english') {
-      alert(
-        `Hi ${values.firstname} ${values.lastname}, the form was sent successfully!`
-      );
-    } else {
-      alert(`שלום ${values.firstname} ${values.lastname}, הטופס נשלח בהצלחה!`);
-    }
-    handleReset();
-  };
-
-  const handleValidation = () => {
-    const { firstname, lastname, idnumber, email, gender, dob } = values;
-
-    // firstname and lastname
-    if (firstname.length < 2 || lastname.length < 2) {
-      setIsFormValid(false);
-      return;
-    }
-    // teudat zehut
-    if (idnumber.length !== 9 && !isValidIsraeliID(idnumber)) {
-      setIsFormValid(false);
-      return;
-    }
-    // email
-    if (!validateEmail(email)) {
-      setIsFormValid(false);
-      return;
-    }
-    // gender
-    if (!gender === '') {
-      setIsFormValid(false);
-      return;
-    }
-
-    // at least 18 years old
-    if (!checkAgeAtleastEighteen(dob)) {
-      setIsFormValid(false);
-      return;
-    }
-
-    // if all tests passed - form is valid
-    setIsFormValid(true);
-  };
-
-  const handleReset = () => {
-    setValues(initialValues);
-  };
-
-  // run validation on every change
-  useEffect(() => {
-    handleValidation();
-  }, [values]);
 
   return (
     <form className="form" onSubmit={handleSubmit}>

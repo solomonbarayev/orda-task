@@ -83,6 +83,12 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+.form__radio-button {
+  -webkit-appearance: checkbox; /* Chrome, Safari, Opera */
+  -moz-appearance: checkbox; /* Firefox */
+  -ms-appearance: checkbox;
+}
+
 @media screen and (max-width: 514px) {
   .form__row {
     display: block;
