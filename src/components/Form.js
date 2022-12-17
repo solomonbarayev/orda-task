@@ -1,8 +1,4 @@
 import '../blocks/Form.css';
-import {
-  onlyHebrewLetters,
-  onlyEnglishLetters,
-} from '../utils/languageAcceptor';
 import { translations } from '../utils/translations';
 import { useLanguage } from '../context/LanguageProvider';
 import { useForm } from '../context/FormProvider';
@@ -15,6 +11,7 @@ const Form = () => {
     handleReset,
     handleChange,
     handleSubmit,
+    errors,
   } = useForm();
 
   const { language } = useLanguage();
@@ -26,21 +23,22 @@ const Form = () => {
       </h2>
       <div className="form__row">
         <div className="form__group">
-          <label className="form__label" htmlFor="firstname">
+          <label className="form__label" htmlFor="firstName">
             {translations[language].form.firstName}
           </label>
           <input
             className="form__input"
             type="text"
-            name="firstname"
-            id="firstname"
+            name="firstName"
+            id="firstName"
             placeholder={translations[language].form.firstName}
-            value={values.firstname}
+            value={values.firstName}
             onChange={handleChange}
-            onKeyPress={
-              language === 'english' ? onlyEnglishLetters : onlyHebrewLetters
-            }
           />
+          <span className="form__error">
+            {errors.firstName && errors.firstName}
+            {errors.wrongLanguage.firstName && errors.wrongLanguage.firstName}
+          </span>
         </div>
         <div className="form__group">
           <label className="form__label" htmlFor="lastname">
@@ -49,35 +47,41 @@ const Form = () => {
           <input
             className="form__input"
             type="text"
-            name="lastname"
-            id="lastname"
+            name="lastName"
+            id="lastName"
             placeholder={translations[language].form.lastName}
-            value={values.lastname}
+            value={values.lastName}
             onChange={handleChange}
-            onKeyPress={
-              language === 'english' ? onlyEnglishLetters : onlyHebrewLetters
-            }
           />
+          <span className="form__error">
+            {errors.lastName && errors.lastName}
+            {errors.wrongLanguage.lastName && errors.wrongLanguage.lastName}
+          </span>
         </div>
       </div>
       <div className="form__row">
         <div className="form__group">
-          <label className="form__label" htmlFor="idnumber">
+          <label className="form__label" htmlFor="idNumber">
             {translations[language].form.idNumber}
           </label>
           <input
             className="form__input"
             type="text"
-            name="idnumber"
-            id="idnumber"
+            name="idNumber"
+            id="idNumber"
             placeholder={translations[language].form.idNumber}
-            value={values.idnumber}
+            value={values.idNumber}
             onChange={handleChange}
             maxLength={9}
             onInput={(e) => {
               e.target.value = e.target.value.replace(/[^0-9]/g, '');
             }}
           />
+          <span className="form__error">
+            {errors.idNumber.length && errors.idNumber.length}
+            {errors.idNumber.format && errors.idNumber.format}
+            {errors.idNumber.valid && errors.idNumber.valid}
+          </span>
         </div>
         <div className="form__group">
           <label className="form__label" htmlFor="email">
@@ -92,6 +96,7 @@ const Form = () => {
             value={values.email}
             onChange={handleChange}
           />
+          <span className="form__error">{errors.email && errors.email}</span>
         </div>
       </div>
 
@@ -102,7 +107,8 @@ const Form = () => {
           className={`form__selection ${
             values.gender === 'male' ? 'form__selection_active' : null
           }`}
-          onClick={() => setValues({ ...values, gender: 'male' })}>
+          onClick={() => setValues({ ...values, gender: 'male' })}
+          name="gender">
           <input
             type="radio"
             className="form__radio-button"
@@ -118,6 +124,7 @@ const Form = () => {
           className={`form__selection ${
             values.gender === 'female' ? 'form__selection_active' : null
           }`}
+          name="gender"
           onClick={() => setValues({ ...values, gender: 'female' })}>
           <input
             type="radio"
@@ -143,11 +150,15 @@ const Form = () => {
             name="dob"
             id="dob"
             placeholder={translations[language].form.dob}
-            onFocus={(e) => (e.target.type = 'date')}
+            onFocus={(e) => {
+              e.target.type = 'date';
+              e.target.max = new Date().toISOString().split('T')[0];
+            }}
             onBlur={(e) => (e.target.type = 'text')}
             value={values.dob}
             onChange={handleChange}
           />
+          <span className="form__error">{errors.dob}</span>
         </div>
       </div>
 

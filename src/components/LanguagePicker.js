@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../blocks/Languages.css';
 import { useLanguage } from '../context/LanguageProvider';
+import { useForm } from '../context/FormProvider';
 
 export default function LanguagePicker() {
-  const { changeLanguage } = useLanguage();
+  const { changeLanguage, language } = useLanguage();
+  const { handleReset } = useForm();
 
   const handleLanguageClick = (e) => {
     changeLanguage(e);
   };
+
+  useEffect(() => {
+    handleReset();
+  }, [language]);
 
   return (
     <ul className="languages">
