@@ -9,7 +9,7 @@ State is managed with Context API.
 
 - Validation included:
 
-  - name fields must have at least 2 characters each
+  - name fields must have at least 2 characters each, and in the laguage the form is being showed in
   - email field must be a valid email address
   - id number (teudat zehut number) must match actual teudat zehut number format (used algrotihm from [here](https://gist.github.com/freak4pc/6802be89d019bca57756a675d761c5a8))
   - gender field must be selected
