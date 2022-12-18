@@ -26,6 +26,8 @@ const english = {
     gender: 'Must choose a gender',
     wrongLanguage: 'Only English characters',
   },
+  successMessage: (firstName, lastName) =>
+    `Hi ${firstName} ${lastName}, the form was sent successfully!`,
 };
 
 const hebrew = {
@@ -56,6 +58,8 @@ const hebrew = {
     gender: 'חייב לבחור מין',
     wrongLanguage: 'אותיות עברית בלבד',
   },
+  successMessage: (firstName, lastName) =>
+    `שלום ${firstName} ${lastName}, הטופס נשלח בהצלחה!`,
 };
 
 export const translations = {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLanguage } from '../context/LanguageProvider';
 import { checkAgeAtleastEighteen } from '../utils/ageChecker';
 import { validateEmail } from '../utils/emailValidator';
@@ -8,38 +8,12 @@ import {
   onlyHebrewLetters,
 } from '../utils/languageAcceptor';
 import { translations } from '../utils/translations';
+import { initialErrors, initialValues } from '../utils/constants';
 
 const useForm = () => {
   const { language } = useLanguage();
-  const initialValues = {
-    firstName: '',
-    lastName: '',
-    idNumber: '',
-    email: '',
-    gender: '',
-    dob: '',
-  };
-
-  const initialErrors = {
-    firstName: '',
-    lastName: '',
-    idNumber: {
-      length: '',
-      format: '',
-      valid: '',
-    },
-    email: '',
-    dob: '',
-    gender: '',
-    wrongLanguage: {
-      lastName: '',
-      firstName: '',
-    },
-  };
 
   const [values, setValues] = useState(initialValues);
-  const [isFormValid, setIsFormValid] = useState(false);
-
   const [errors, setErrors] = useState(initialErrors);
 
   const handleReset = () => {
@@ -55,13 +29,9 @@ const useForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (language === 'english') {
-      alert(
-        `Hi ${values.firstName} ${values.lastName}, the form was sent successfully!`
-      );
-    } else {
-      alert(`שלום ${values.firstName} ${values.lastName}, הטופס נשלח בהצלחה!`);
-    }
+    alert(
+      translations[language].successMessage(values.firstName, values.lastName)
+    );
     handleReset();
   };
 
@@ -81,7 +51,6 @@ const useForm = () => {
           },
           [name]: '',
         }));
-        setIsFormValid(false);
       }
     }
     // check if value is at least 2 letters
@@ -94,7 +63,6 @@ const useForm = () => {
           [name]: '',
         },
       }));
-      setIsFormValid(false);
     } else {
       setErrors({
         ...errors,
@@ -119,7 +87,6 @@ const useForm = () => {
           valid: `${translations[language].errors.idNumber.valid}`,
         },
       }));
-      setIsFormValid(false);
     } else {
       setErrors({ ...errors, idNumber: { ...errors.idNumber, valid: '' } });
     }
@@ -133,7 +100,6 @@ const useForm = () => {
         ...prevState,
         email: `${translations[language].errors.email}`,
       }));
-      setIsFormValid(false);
     } else {
       setErrors({ ...errors, email: '' });
     }
@@ -148,7 +114,6 @@ const useForm = () => {
         ...prevState,
         dob: `${translations[language].errors.dob}`,
       }));
-      setIsFormValid(false);
     } else {
       setErrors({ ...errors, dob: '' });
     }
@@ -168,17 +133,12 @@ const useForm = () => {
     validators[name]?.(e);
   };
 
-  //useEffect to check if the form is valid
-  useEffect(() => {
-    if (
+  const checkFormValidity = () => {
+    return (
       Object.values(values).every((value) => value !== '') &&
       JSON.stringify(errors) === JSON.stringify(initialErrors)
-    ) {
-      setIsFormValid(true);
-    } else {
-      setIsFormValid(false);
-    }
-  }, [errors, values]);
+    );
+  };
 
   return {
     values,
@@ -187,7 +147,7 @@ const useForm = () => {
     handleSubmit,
     handleReset,
     errors,
-    isFormValid,
+    checkFormValidity,
   };
 };
 

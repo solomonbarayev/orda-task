@@ -15,11 +15,11 @@ const Form = () => {
   const {
     values,
     setValues,
-    isFormValid,
     handleReset,
     handleChange,
     handleSubmit,
     errors,
+    checkFormValidity,
   } = useForm();
 
   const { language } = useLanguage();
@@ -81,7 +81,10 @@ const Form = () => {
         />
       </div>
 
-      <FormButtons isFormValid={isFormValid} handleReset={handleReset} />
+      <FormButtons
+        isFormValid={checkFormValidity()}
+        handleReset={handleReset}
+      />
     </form>
   );
 };

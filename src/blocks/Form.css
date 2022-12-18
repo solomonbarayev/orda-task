@@ -104,10 +104,6 @@ input[type='number'] {
     display: block;
   }
 
-  /* .form__group {
-    margin-bottom: 30px;
-  } */
-
   .form__error {
     bottom: -15px;
   }
