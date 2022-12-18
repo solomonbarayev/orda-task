@@ -23,6 +23,13 @@ export default function FormNameInput({
         placeholder={translations[language].form[name]}
         value={value}
         onChange={handleChange}
+        // only allow letters in english or hebrew
+        onInput={(e) => {
+          e.target.value = e.target.value.replace(
+            /[^a-zA-Z\u0590-\u05FF]/g,
+            ''
+          );
+        }}
       />
       <span className="form__error">
         {errors[name] && errors[name]}
