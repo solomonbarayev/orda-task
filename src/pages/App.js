@@ -1,6 +1,6 @@
-import LanguagePicker from './LanguagePicker';
+import LanguagePicker from '../components/LanguagePicker';
 import '../blocks/App.css';
-import Form from './Form';
+import Form from '../components/Form';
 import { useLanguage } from '../context/LanguageProvider';
 import { translations } from '../utils/translations';
 

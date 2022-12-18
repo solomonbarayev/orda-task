@@ -1,20 +1,19 @@
-import { createContext, useState, useContext, useEffect } from 'react';
-import { useLanguage } from './LanguageProvider';
-import { isValidIsraeliID } from '../utils/isValidIsraeliID';
-import { validateEmail } from '../utils/emailValidator';
+import { useEffect, useState } from 'react';
+import { useLanguage } from '../context/LanguageProvider';
 import { checkAgeAtleastEighteen } from '../utils/ageChecker';
-import { translations } from '../utils/translations';
+import { validateEmail } from '../utils/emailValidator';
+import { isValidIsraeliID } from '../utils/isValidIsraeliID';
 import {
+  checkThatNotBackspace,
   onlyEnglishLetters,
   onlyHebrewLetters,
-  checkThatNotBackspace,
 } from '../utils/languageAcceptor';
+import { translations } from '../utils/translations';
 
-const FormContext = createContext();
+//useForm hook
 
-const FormProvider = ({ children }) => {
+const useForm = () => {
   const { language } = useLanguage();
-
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -183,24 +182,15 @@ const FormProvider = ({ children }) => {
     }
   }, [errors, values]);
 
-  return (
-    <FormContext.Provider
-      value={{
-        initialValues,
-        values,
-        setValues,
-        isFormValid,
-        setIsFormValid,
-        handleReset,
-        handleChange,
-        handleSubmit,
-        errors,
-      }}>
-      {children}
-    </FormContext.Provider>
-  );
+  return {
+    values,
+    setValues,
+    handleChange,
+    handleSubmit,
+    handleReset,
+    errors,
+    isFormValid,
+  };
 };
 
-const useForm = () => useContext(FormContext);
-
-export { FormProvider, useForm };
+export default useForm;
