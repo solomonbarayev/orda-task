@@ -4,13 +4,10 @@ import { checkAgeAtleastEighteen } from '../utils/ageChecker';
 import { validateEmail } from '../utils/emailValidator';
 import { isValidIsraeliID } from '../utils/isValidIsraeliID';
 import {
-  checkThatNotBackspace,
   onlyEnglishLetters,
   onlyHebrewLetters,
 } from '../utils/languageAcceptor';
 import { translations } from '../utils/translations';
-
-//useForm hook
 
 const useForm = () => {
   const { language } = useLanguage();
@@ -75,7 +72,7 @@ const useForm = () => {
       (language === 'english' && !onlyEnglishLetters(value)) ||
       (language === 'hebrew' && !onlyHebrewLetters(value))
     ) {
-      if (!checkThatNotBackspace(e)) {
+      if (value !== '') {
         setErrors((prevState) => ({
           ...prevState,
           wrongLanguage: {
@@ -86,21 +83,27 @@ const useForm = () => {
         }));
         setIsFormValid(false);
       }
+    }
+    // check if value is at least 2 letters
+    else if (value.length < 2) {
+      setErrors((prevState) => ({
+        ...prevState,
+        [name]: `${translations[language].errors[name]}`,
+        wrongLanguage: {
+          ...prevState.wrongLanguage,
+          [name]: '',
+        },
+      }));
+      setIsFormValid(false);
     } else {
-      // check if value is at least 2 letters
-      if (value.length < 2) {
-        setErrors((prevState) => ({
-          ...prevState,
-          [name]: `${translations[language].errors[name]}`,
-          wrongLanguage: {
-            ...prevState.wrongLanguage,
-            [name]: '',
-          },
-        }));
-        setIsFormValid(false);
-      } else {
-        setErrors({ ...errors, [name]: '' });
-      }
+      setErrors({
+        ...errors,
+        [name]: '',
+        wrongLanguage: {
+          ...errors.wrongLanguage,
+          [name]: '',
+        },
+      });
     }
   };
 
@@ -153,21 +156,16 @@ const useForm = () => {
 
   const handleErrors = (e) => {
     const { name } = e.target;
-    if (name === 'firstName') {
-      handleNameError(e);
-    }
-    if (name === 'lastName') {
-      handleNameError(e);
-    }
-    if (name === 'idNumber') {
-      handleIDError(e);
-    }
-    if (name === 'email') {
-      handleEmailError(e);
-    }
-    if (name === 'dob') {
-      handleDOBError(e);
-    }
+
+    const validators = {
+      firstName: handleNameError,
+      lastName: handleNameError,
+      idNumber: handleIDError,
+      email: handleEmailError,
+      dob: handleDOBError,
+    };
+
+    validators[name]?.(e);
   };
 
   //useEffect to check if the form is valid
